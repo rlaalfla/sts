@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<!-- id 중복체크 , 회원 수정 폼에 표시할 자료 -->
+	<select id="selectOne" parameterType="String" resultType="model.dto.MemberDto">
+		select * from member where id=#{id}
+	</select>
+	
+	<!-- insert 회원가입-->
+	<insert id="insertMember" parameterType="model.dto.MemberDto">
+		insert into member(id,passwd,name,jumin1,jumin2,email,zipcode,addr,job,regdate)
+		values(#{id},#{passwd},#{name},#{jumin1},
+		#{jumin2},#{email},#{zipcode},#{addr},#{job},NOW())
+	</insert>
+
+	<!-- 로그인  map 사용-->
+	<select id="selectLogin" parameterType="map" resultType="model.dto.MemberDto">
+		select * from member 
+		where id=#{id} and passwd=#{passwd}
+	</select>
+	
+<!-- 회원 수정  -->
+<update id="memberUpdate" parameterType="model.dto.MemberDto">
+   update member set
+    passwd=#{passwd},
+    name=#{name},
+    jumin1=#{jumin1},
+    jumin2=#{jumin2},
+    email=#{email},
+    zipcode=#{zipcode},
+    addr=#{addr},
+    job=#{job},
+    regdate=NOW()
+   where id=#{id}
+</update>
+
+<!-- 회원 탈퇴 -->
+<delete id="memberDelete" parameterType="String">
+  delete from member where id=#{id} 
+</delete>
+
+</mapper>
